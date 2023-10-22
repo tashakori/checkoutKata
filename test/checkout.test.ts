@@ -25,4 +25,10 @@ describe('checkout test', () => {
     it("Should return error if an unknown item is sent", () =>{
         expect(() => checkout("E")).toThrow("Unknown Item")
     });
+    it("Should apply 20$ discount for each 3 As", () =>{
+        expect(checkout("AAAAAAAA")).toBe(360)
+    })
+    it("Should apply 15$ discount for each 2 Bs", () =>{
+        expect(checkout("BBBBB")).toBe(120)
+    })
 });
