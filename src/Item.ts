@@ -19,3 +19,10 @@ export function itemFactory(itemChar: string): Item{
         return new D()
     throw new Error("Unknown Item")
 }
+
+export enum ItemType{
+    A = "A",
+    B = "B",
+    C = "C",
+    D = "D"
+}

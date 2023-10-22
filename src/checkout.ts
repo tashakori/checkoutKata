@@ -1,20 +1,34 @@
-import {itemFactory} from "./Item"
+import { Discount } from "./Discount";
+import {ItemType, itemFactory} from "./Item"
 
-export function checkout(itemList : string): number{
-    let total = 0;
-    for(const itemChar of itemList){
-        const item = itemFactory(itemChar)
-        total += item.getPrice()
+export class Store{
+    constructor(private discountsList? : Discount[]){}
+
+    checkout(itemList : string): number{
+        const total = this.calculateTotal(itemList);
+    
+        const discount = this.calculateDiscount(itemList);
+    
+        return total - discount
+        
+
+    }
+    
+    private calculateDiscount(itemList: string) {
+        let totalDiscount = 0;
+        for (const discount of this.discountsList) {
+            totalDiscount += discount.calculateDiscount(itemList);
+        }
+        return totalDiscount;
     }
 
-    const A_counter = itemList.split("").filter((item) => item === "A").length
-    if(A_counter>=3)
-        total -= Math.floor(A_counter/3) * 20
-
-    const B_counter = itemList.split("").filter((item) => item === "B").length
-    if(B_counter>=2)
-        total -= Math.floor(B_counter/2) * 15
-
-    return total
-    
+    private calculateTotal(itemList: string){
+        let total = 0;
+        for (const itemChar of itemList) {
+            const item = itemFactory(itemChar);
+            total += item.getPrice();
+        }
+        return total;
+    }
 }
+
